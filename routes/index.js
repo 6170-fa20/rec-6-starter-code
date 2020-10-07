@@ -16,8 +16,8 @@ router.get('/', (req, res) => {
  * Access short URL.
  * @name GET/:shortName
  */
-router.get('/:shortName', (req, res, next) => {
-  const short = Shorts.findOne(req.params.shortName);
+router.get('/:shortName', async (req, res, next) => {
+  const short = await Shorts.findOne(req.params.shortName);
   if (short === undefined) {
     res.status(404).json({
       error: `Short URL ${req.params.shortName} not found.`,
