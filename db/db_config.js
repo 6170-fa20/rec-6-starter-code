@@ -1,47 +1,47 @@
 const sqlite3 = require('sqlite3');
 
-let db;
+let sqlDb;
 
 // name the columns of our tables for localization
-const dbColumnNames = {
+const columnNames = {
   userId: "id",
   userName: "name",
   shortName: "short",
   shortCreator: "creator",
   shortURL: "url",
 };
-Object.freeze(dbColumnNames);
+Object.freeze(columnNames);
 
 function createDb() {
   console.log("created our db!");
-  db = new sqlite3.Database('shortdb.db', function() {
+  sqlDb = new sqlite3.Database('shortdb.db', function() {
     createUserTable();
     createShortsTable();
   });
 };
 
 function createUserTable() {
-  db.run(`CREATE TABLE IF NOT EXISTS users (
-    ${dbColumnNames.userId} INTEGER PRIMARY KEY AUTOINCREMENT,
-    ${dbColumnNames.userName} TEXT NOT NULL UNIQUE
+  sqlDb.run(`CREATE TABLE IF NOT EXISTS users (
+    ${columnNames.userId} INTEGER PRIMARY KEY AUTOINCREMENT,
+    ${columnNames.userName} TEXT NOT NULL UNIQUE
   )`);
 };
 
 function createShortsTable() {
-  db.run(`CREATE TABLE IF NOT EXISTS shorts (
-    ${dbColumnNames.shortName} TEXT PRIMARY KEY,
-    ${dbColumnNames.shortURL} TEXT NOT NULL,
-    ${dbColumnNames.shortCreator} INTEGER NOT NULL,
-    FOREIGN KEY(${dbColumnNames.shortCreator})
-    REFERENCES users(${dbColumnNames.userId})
+  sqlDb.run(`CREATE TABLE IF NOT EXISTS shorts (
+    ${columnNames.shortName} TEXT PRIMARY KEY,
+    ${columnNames.shortURL} TEXT NOT NULL,
+    ${columnNames.shortCreator} INTEGER NOT NULL,
+    FOREIGN KEY(${columnNames.shortCreator})
+    REFERENCES users(${columnNames.userId})
   )`);
 };
 
 // Helper wrapper functions that return promises when sql queries are complete.
 
-function dbRun(sqlQuery) {
+function run(sqlQuery) {
   return new Promise((resolve, reject) => {
-    db.run(sqlQuery, (err) => {
+    sqlDb.run(sqlQuery, (err) => {
       if (err !== null) {
         reject(err);
       } else {
@@ -51,9 +51,9 @@ function dbRun(sqlQuery) {
   });
 };
 
-function dbGet(sqlQuery) {
+function get(sqlQuery) {
   return new Promise((resolve, reject) => {
-    db.get(sqlQuery, (err, row) => {
+    sqlDb.get(sqlQuery, (err, row) => {
       if (err !== null) {
         reject(err);
       } else {
@@ -63,9 +63,9 @@ function dbGet(sqlQuery) {
   });
 };
 
-function dbAll(sqlQuery) {
+function all(sqlQuery) {
   return new Promise((resolve, reject) => {
-    db.all(sqlQuery, (err, rows) => {
+    sqlDb.all(sqlQuery, (err, rows) => {
       if (err !== null) {
         reject(err);
       } else {
@@ -76,8 +76,10 @@ function dbAll(sqlQuery) {
 };
 
 createDb();
-module.exports.db = db;
-module.exports.dbColumnNames = dbColumnNames;
-module.exports.dbGet = dbGet;
-module.exports.dbAll = dbAll;
-module.exports.dbRun = dbRun;
+
+module.exports = {
+  columnNames,
+  get,
+  all,
+  run,
+};
