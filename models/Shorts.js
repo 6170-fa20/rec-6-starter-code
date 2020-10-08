@@ -27,7 +27,7 @@ class Shorts {
   static async addOne(name, url, creatorID) {
     // first insert the short into the DB and wait for completion
     // and then fetch the new short from the DB
-
+    
     /* YOUR CODE HERE */
 
   }

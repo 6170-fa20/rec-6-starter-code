@@ -7,15 +7,15 @@ const Users = require('../models/Users');
 
 const ensureUserNotLoggedIn = function(req, res, next) {
   if (req.session.uid) {
-    res.status(400).json({ error: "You are logged in!" }).end();
+    res.status(400).json({ error: "You are signed in!" }).end();
     return;
   }
   next();
 };
 
 const ensureUserLoggedIn = function(req, res, next) {
-  if (!(req.session.uid)) {
-    res.status(401).json({ error: "Must be logged in!" }).end();
+  if (!req.session.uid) {
+    res.status(401).json({ error: "Must be signed in!" }).end();
     return;
   }
   next();
@@ -24,7 +24,7 @@ const ensureUserLoggedIn = function(req, res, next) {
 // ------------------------------ BODY
 
 const ensureValidUsernameInBody = function(req, res, next) {
-  if (!(req.body.username)) {
+  if (!req.body.username) {
     res.status(400).json({ error: "You must specify a valid username in the body" }).end();
     return;
   }
@@ -32,7 +32,7 @@ const ensureValidUsernameInBody = function(req, res, next) {
 };
 
 const ensureValidShortNameInBody = function(req, res, next) {
-  if (!(req.body.name)) {
+  if (!req.body.name) {
     res.status(400).json({ error: "You must specify a valid short name in the body" }).end();
     return;
   }
@@ -40,7 +40,7 @@ const ensureValidShortNameInBody = function(req, res, next) {
 };
 
 const ensureValidShortUrlInBody = function(req, res, next) {
-  if (!(req.body.url)) {
+  if (!req.body.url) {
     res.status(400).json({ error: "You must specify a valid short URL in the body" }).end();
     return;
   }
@@ -50,7 +50,7 @@ const ensureValidShortUrlInBody = function(req, res, next) {
 // ------------------------------ AUTH
 
 const ensureValidShortNameParam = function(req, res, next) {
-  if (!(req.params.name)) {
+  if (!req.params.name) {
     res.status(400).json({ error: "You must specify the name of a short as a parameter" }).end();
     return;
   }

@@ -37,7 +37,7 @@ function createShortsTable() {
   )`);
 };
 
-// Helper wrapper functions that return promises when sql queries are complete.
+// Helper wrapper functions that return promises that resolve when sql queries are complete.
 
 function run(sqlQuery) {
   return new Promise((resolve, reject) => {

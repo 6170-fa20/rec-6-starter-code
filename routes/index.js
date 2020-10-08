@@ -35,7 +35,7 @@ router.get(
 
     // fetch short from DB and ensure it exists
     const short = await Shorts.findOne(shortName);
-    if (!(short)) {
+    if (!short) {
       res.status(404).json({
         error: `Short URL ${shortName} not found.`,
       }).end();

@@ -23,10 +23,10 @@ class Users {
    */
   static async addOne(name) {
     // first insert the user into the db then fetch the user from the DB
-    return Promise.all([
-      db.run(`INSERT INTO users (${db.columnNames.userName}) VALUES ('${name}')`),
-      Users.findOne(name),
-    ]).then(values => values[values.length - 1]);
+    return db.run(`INSERT INTO users (${db.columnNames.userName}) VALUES ('${name}')`)
+              .then( () => {
+                return Users.findOne(name);
+              });
   }
 
   /**

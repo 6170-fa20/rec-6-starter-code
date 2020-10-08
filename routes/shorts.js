@@ -101,7 +101,7 @@ router.put(
 
     // ensure that the given short exists in our DB
     const short = await Shorts.findOne(shortName);
-    if (!(short)) {
+    if (!short) {
       res.status(404).json({
         error: `Short with name ${shortName} does not exist`,
       }).end();
@@ -150,7 +150,7 @@ router.delete(
 
     // ensure that this short already exists in our database
     const short = await Shorts.findOne(shortName);
-    if (!(short)) {
+    if (!short) {
       res.status(404).json({
         error: `Short with name ${shortName} does not exist`,
       }).end();

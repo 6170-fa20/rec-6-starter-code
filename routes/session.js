@@ -22,17 +22,17 @@ router.post(
     let user = await Users.findOne(req.body.username);
     
     // must find user in the DB
-    if (!(user)) {
+    if (!user) {
       res.status(404).json({ error: `Could not find user ${req.body.username}` }).end();
       return;
     }
     
     // authenticate and sign the user in
     req.session.uid = user.id;
-    res.status(201).json(user).end();
+    res.status(201).json({data: user, message: "You are signed in."}).end();
 
   } catch (error) {
-    res.status(503).json({ error: "Could not log user in" }).end();
+    res.status(503).json({ error: "Could not sign user in" }).end();
   }
 });
 
@@ -51,7 +51,7 @@ router.delete(
     res.status(200).json({ message: "Successfuly signed out user!" }).end();
 
   } catch (error) {
-    res.status(503).json({ error: "Could not log user out" }).end();
+    res.status(503).json({ error: "Could not sign user out" }).end();
   }
 });
 
